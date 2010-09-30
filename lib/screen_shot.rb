@@ -1,6 +1,8 @@
+require 'rbconfig'
+
 class Screenshot
 
-  #include java and the other classes we need for this
+  #include java and the java classes we need for this
   include Java
   import java.awt.Desktop
   import java.awt.Robot
@@ -30,18 +32,33 @@ class Screenshot
       end
     }
     rectangle = Rectangle.new(start_x, start_y, width, height)
-    image = robot.create_screen_capture(rectangle)
+    @image = robot.create_screen_capture(rectangle)
 
+    save_image file_name
+  end
 
-    #windows desktop location
-    desktop = ENV['USERPROFILE']+'/Desktop/'
+  private
 
+  def self.get_home_dir
+    os = Config::CONFIG['host_os']
+    #windows
+    if os % 'mswin'
+      home = ENV['USERPROFILE'] + '/Desktop/'
+    #this should cover unix like oses
+    else
+      home = '~/Desktop/'
+    end
+  end
+
+  def self.save_image file_name
+    desktop = get_home_dir
     #save the image
     file  = java::io::File.new(desktop+file_name)
-    ImageIO::write(image, "png", file)
+    ImageIO::write(@image, "png", file)
 
     # Open the image in the users default application
     desktop = Desktop.get_desktop
     desktop.open(file)
   end
+
 end
