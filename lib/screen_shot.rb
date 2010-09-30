@@ -1,11 +1,11 @@
 class Screenshot
-  include Java
 
+  #include java and the other classes we need for this
+  include Java
   import java.awt.Desktop
   import java.awt.Robot
   import java.awt.GraphicsEnvironment
   import java.awt.GraphicsDevice
-  import java.awt.DisplayMode
   import java.awt.Rectangle
   import javax.imageio.ImageIO
 
