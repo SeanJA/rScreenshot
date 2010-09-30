@@ -10,12 +10,12 @@ class Screenshot
   import javax.imageio.ImageIO
 
   def self.capture(file_name = 'screenshot.png')
-    file_name = Time.now.to_i.to_s + file_name
+    #default values
+    width,height,start_x,start_y = 0,0,0,0
+    #timestamp the filename so that it doesn't overwrite the previous screenshot
+    file_name = Time.now.to_i.to_s + '_' + file_name
     robot = Robot.new
-    width = 0
-    start_x = 0
-    start_y = 0
-    height = 0
+    
     g_env = GraphicsEnvironment.get_local_graphics_environment
     g_env.get_screen_devices.each{ |d|
       configuration = d.get_default_configuration
@@ -36,10 +36,11 @@ class Screenshot
     #windows desktop location
     desktop = ENV['USERPROFILE']+'/Desktop/'
 
+    #save the image
     file  = java::io::File.new(desktop+file_name)
     ImageIO::write(image, "png", file)
 
-    # Open the file in the users default application for the given file type
+    # Open the image in the users default application
     desktop = Desktop.get_desktop
     desktop.open(file)
   end
