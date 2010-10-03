@@ -46,7 +46,7 @@ class Screenshot
       home = ENV['USERPROFILE'] + '/Desktop/'
     #this should cover unix like oses
     else
-      home = '~/Desktop/'
+      home = ENV['$HOME']+'/Desktop/'
     end
   end
 
